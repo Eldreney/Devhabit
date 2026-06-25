@@ -2,14 +2,16 @@
 
 namespace DevHabit.Api.Controllers;
 
-public  class WeatherForcast : ControllerBase
+
+[ApiController]
+[Route("[controller]")]
+internal sealed  class WeatherForcast : ControllerBase
 {
-    
-    
-    
+
+
+
     [HttpGet]
     public IActionResult Index()
-    {
-        return Ok();    
-    }
+        => Ok();
+    
 }

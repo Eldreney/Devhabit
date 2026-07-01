@@ -9,11 +9,11 @@
       - "5001:8081"
     environment:
       #seq
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.seq:5341/ingest/otlp
-      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-#      - ASPNETCORE_ENVIRONMENT=Development
-#      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.aspire-dashboard:18889
-#      - SEQ_SERVER_URL=http://devhabit.seq:5341
+#      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.seq:5341/ingest/otlp
+#      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      #aspire dashboard
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
     depends_on:
       - devhabit.seq
       - devhabit.aspire-dashboard

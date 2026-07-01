@@ -1,0 +1,41 @@
+﻿services:
+  devhabit.api:
+    image: devhabit.api
+    build:
+      context: .
+      dockerfile: DevHabit.Api/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      #seq
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.seq:5341/ingest/otlp
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+#      - ASPNETCORE_ENVIRONMENT=Development
+#      - OTEL_EXPORTER_OTLP_ENDPOINT=http://devhabit.aspire-dashboard:18889
+#      - SEQ_SERVER_URL=http://devhabit.seq:5341
+    depends_on:
+      - devhabit.seq
+      - devhabit.aspire-dashboard
+
+  devhabit.seq:
+    image: datalust/seq:2024.3
+    environment:
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./.containers/seq_data:/data
+    ports:
+      - "8989:80"   
+      - "5341:5341" 
+
+  devhabit.aspire-dashboard:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    container_name: aspire-dashboard
+    ports:
+      - "18888:18888" 
+      - "18889:18889" 
+    environment:
+      - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
+#      - DASHBOARD__FRONTEND__AUTHMODE=Unsecured
+#      - DASHBOARD__OTLP__AUTHMODE=Unsecured
+    restart: unless-stopped
